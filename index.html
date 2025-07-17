@@ -1,0 +1,1179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mathematics Exam Study Guide - HICKS BOZON404</title>
+    <!-- Chosen Palette: Warm Neutrals (Stone, Slate, Teal, Amber) -->
+    <!-- Application Structure Plan: The SPA is structured with a top tab-based navigation for the four core topics: Sets, Rational Numbers, Irrational Numbers, and Surds. This non-linear design allows students to jump directly to any topic. Within each topic, content is organized into collapsible accordions (e.g., Definitions, Operations, Practice Questions, Calculators) to manage information density and reduce cognitive load. This is superior to a long, scrolling document because it encourages focused, active learning and quick navigation. Key interactions include toggling content visibility, revealing solutions on demand, and interacting with specialized calculators for each topic, making study more efficient and engaging. The user's name is prominently displayed for personalization. -->
+    <!-- Visualization & Content Choices: The main visualization remains a Chart.js Donut chart to represent the relationship between Rational and Irrational numbers within the Real numbers. Goal: Inform/Compare. Method: Chart.js Canvas. Interaction: Hover tooltips. Justification: This provides a high-level visual anchor for a core concept. Set relationships (Venn diagrams) are represented using styled HTML/CSS divs. Goal: Organize. Method: HTML/Tailwind. Justification: Simpler and more maintainable than a static image for this purpose. All other content from the report is presented in structured text within interactive accordions. Goal: Inform/Organize. Method: HTML/JS. Justification: This makes the dense information digestible and easy to navigate. New interactive calculators (Sets, Rational, Surds) are added using vanilla JavaScript to process user input and display results dynamically. -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <link rel="manifest" href="manifest.json">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" crossorigin="anonymous"></script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .katex-display > .katex {
+            text-align: left !important;
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 400px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 300px;
+            max-height: 400px;
+        }
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 350px;
+            }
+        }
+        .accordion-content {
+            transition: max-height 0.3s ease-in-out, padding 0.3s ease-in-out;
+            max-height: 0;
+            overflow: hidden;
+        }
+        .accordion-content.open {
+            max-height: 5000px; /* Large enough for content */
+            padding-top: 1rem;
+            padding-bottom: 1rem;
+        }
+        .accordion-arrow {
+            transition: transform 0.3s ease-in-out;
+        }
+        .accordion-arrow.rotated {
+            transform: rotate(90deg);
+        }
+        .input-group label {
+            display: block;
+            margin-bottom: 0.25rem;
+            font-weight: 500;
+        }
+        .input-group input, .input-group select, .input-group textarea {
+            width: 100%;
+            padding: 0.5rem;
+            border: 1px solid #cbd5e1; /* slate-300 */
+            border-radius: 0.375rem; /* rounded-md */
+            background-color: #f8fafc; /* slate-50 */
+        }
+        .btn-primary {
+            background-color: #0d9488; /* teal-700 */
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 0.375rem;
+            font-weight: 600;
+            transition: background-color 0.2s;
+        }
+        .btn-primary:hover {
+            background-color: #0f766e; /* darker teal */
+        }
+        .result-box {
+            background-color: #ecfdf5; /* teal-50 */
+            border: 1px solid #a7f3d0; /* teal-200 */
+            padding: 1rem;
+            border-radius: 0.5rem;
+            margin-top: 1rem;
+            font-family: 'Courier New', monospace;
+            white-space: pre-wrap;
+            word-break: break-all;
+        }
+    </style>
+</head>
+<body class="bg-stone-50 text-slate-800">
+
+    <div class="container mx-auto max-w-7xl p-4 sm:p-6 lg:p-8">
+        <header class="text-center mb-8">
+            <h1 class="text-4xl font-bold text-teal-700">Mathematics Exam Study Guide</h1>
+            <p class="mt-2 text-lg text-slate-600">Prepared By <span class="font-semibold text-teal-800">PROFESSOR HICKS BOZON404</span></p>
+            <p class="mt-1 text-md text-slate-500"> Lets you have 2 days to write your exams this mother fucking bad boy will help you understand what you didn't understand for three months in just 2 days and you will be feeling like a God like Hicks Bozon .</p>
+        </header>
+
+        <nav class="mb-8 border-b border-slate-300">
+            <ul class="flex flex-wrap -mb-px text-sm font-medium text-center" id="nav-tabs">
+                <li class="mr-2">
+                    <button class="nav-tab inline-block p-4 border-b-2 rounded-t-lg" data-target="sets">Sets</button>
+                </li>
+                <li class="mr-2">
+                    <button class="nav-tab inline-block p-4 border-b-2 rounded-t-lg" data-target="rational">Rational Numbers</button>
+                </li>
+                <li class="mr-2">
+                    <button class="nav-tab inline-block p-4 border-b-2 rounded-t-lg" data-target="irrational">Irrational Numbers</button>
+                </li>
+                <li class="mr-2">
+                    <button class="nav-tab inline-block p-4 border-b-2 rounded-t-lg" data-target="surds">Surds</button>
+                </li>
+            </ul>
+        </nav>
+
+        <main id="content-area">
+            <!-- Sets Content -->
+            <section id="sets" class="content-section space-y-4">
+                <h2 class="text-3xl font-bold text-slate-700 mb-4">1. Sets</h2>
+                <p class="mb-6 text-slate-600">A set is a well-defined collection of distinct objects, called elements or members. This section covers the fundamental concepts of set theory, including different types of sets, the operations you can perform on them, and the algebraic laws they follow. Use the interactive calculator to explore set operations.</p>
+                
+                <div class="accordion-item bg-white p-4 rounded-lg shadow-sm border border-slate-200">
+                    <button class="accordion-header w-full flex justify-between items-center text-left text-xl font-semibold text-teal-700">
+                        <span>Definitions and Types of Sets</span>
+                        <span class="accordion-arrow text-teal-700">&#9654;</span>
+                    </button>
+                    <div class="accordion-content">
+                        <div class="prose max-w-none mt-4 text-slate-600 space-y-4">
+                            <p><strong>Set Notation:</strong> Roster Method $A = \{1, 2, 3\}$, Set-Builder Notation $B = \{x \mid x \text{ is even}\}$.</p>
+                            <p><strong>Empty Set ($\emptyset$):</strong> A set with no elements.</p>
+                            <p><strong>Finite Set:</strong> Countable number of elements.</p>
+                            <p><strong>Infinite Set:</strong> Uncountable number of elements (e.g., $\mathbb{N} = \{1, 2, 3, \dots\}$).</p>
+                            <p><strong>Universal Set ($U$):</strong> All elements under consideration.</p>
+                            <p><strong>Subset ($\subseteq$):</strong> $A \subseteq B$ means every element of A is in B.</p>
+                            <p><strong>Proper Subset ($\subset$):</strong> $A \subseteq B$ and $A \neq B$.</p>
+                            <p><strong>Equal Sets:</strong> $A = B$ iff $A \subseteq B$ and $B \subseteq A$.</p>
+                            <p><strong>Disjoint Sets:</strong> No common elements ($A \cap B = \emptyset$).</p>
+                            <p><strong>Power Set ($\mathcal{P}(A)$):</strong> The set of all subsets of A. If $|A|=n$, then $|\mathcal{P}(A)|=2^n$.</p>
+                            <p><strong>Venn Diagram Example:</strong> A visual representation of set relationships.</p>
+                            <div class="flex items-center justify-center p-4">
+                                <div class="relative w-48 h-32 border-2 border-slate-400 rounded flex items-center justify-center">
+                                    <span class="absolute top-0 left-1 font-bold text-slate-500">U</span>
+                                    <div class="absolute w-20 h-20 bg-teal-200/50 rounded-full border-2 border-teal-500 flex items-center justify-center" style="left: 10%;">
+                                        <span class="font-bold text-teal-800">A</span>
+                                    </div>
+                                    <div class="absolute w-20 h-20 bg-amber-200/50 rounded-full border-2 border-amber-500 flex items-center justify-center" style="right: 10%;">
+                                        <span class="font-bold text-amber-800">B</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="accordion-item bg-white p-4 rounded-lg shadow-sm border border-slate-200">
+                    <button class="accordion-header w-full flex justify-between items-center text-left text-xl font-semibold text-teal-700">
+                        <span>Set Operations and Laws</span>
+                        <span class="accordion-arrow text-teal-700">&#9654;</span>
+                    </button>
+                    <div class="accordion-content">
+                        <div class="prose max-w-none mt-4 text-slate-600 space-y-4">
+                           <p><strong>Union ($A \cup B$):</strong> All elements in A or B. $A \cup B = \{x \mid x \in A \text{ or } x \in B\}$</p>
+                           <p><strong>Intersection ($A \cap B$):</strong> Elements common to A and B. $A \cap B = \{x \mid x \in A \text{ and } x \in B\}$</p>
+                           <p><strong>Complement ($A^c$):</strong> Elements in U but not in A. $A^c = \{x \mid x \in U \text{ and } x \notin A\}$</p>
+                           <p><strong>Difference ($A - B$):</strong> Elements in A but not in B. $A - B = \{x \mid x \in A \text{ and } x \notin B\}$</p>
+                           <p><strong>Cartesian Product ($A \times B$):</strong> Ordered pairs $(a, b)$ where $a \in A, b \in B$.</p>
+                           <p><strong>Laws of Set Algebra:</strong></p>
+                           <ul>
+                               <li>**Commutative:** $A \cup B = B \cup A$, $A \cap B = B \cap A$</li>
+                               <li>**Associative:** $(A \cup B) \cup C = A \cup (B \cup C)$, $(A \cap B) \cap C = A \cap (B \cap C)$</li>
+                               <li>**Distributive:** $A \cup (B \cap C) = (A \cup B) \cap (A \cup C)$, $A \cap (B \cup C) = (A \cap B) \cup (A \cap C)$</li>
+                               <li>**De Morgan's Laws:** $(A \cup B)^c = A^c \cap B^c$, $(A \cap B)^c = A^c \cup B^c$</li>
+                           </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="accordion-item bg-white p-4 rounded-lg shadow-sm border border-slate-200">
+                    <button class="accordion-header w-full flex justify-between items-center text-left text-xl font-semibold text-teal-700">
+                        <span>Set Operations Calculator</span>
+                        <span class="accordion-arrow text-teal-700">&#9654;</span>
+                    </button>
+                    <div class="accordion-content">
+                        <div class="mt-4 space-y-4">
+                            <p class="text-slate-600">Input set elements separated by commas (e.g., `1,2,3` or `a,b,c`). For complement, define the Universal Set.</p>
+                            <div class="input-group">
+                                <label for="setAInput">Set A:</label>
+                                <input type="text" id="setAInput" placeholder="e.g., 1,2,3,4">
+                            </div>
+                            <div class="input-group">
+                                <label for="setBInput">Set B:</label>
+                                <input type="text" id="setBInput" placeholder="e.g., 3,4,5,6">
+                            </div>
+                            <div class="input-group">
+                                <label for="setUInput">Universal Set (U) for Complement:</label>
+                                <input type="text" id="setUInput" placeholder="e.g., 1,2,3,4,5,6,7,8,9,10">
+                            </div>
+                            <div class="input-group">
+                                <label for="setOperation">Operation:</label>
+                                <select id="setOperation" class="block w-full">
+                                    <option value="union">Union (A U B)</option>
+                                    <option value="intersection">Intersection (A &#8745; B)</option>
+                                    <option value="differenceAB">Difference (A - B)</option>
+                                    <option value="differenceBA">Difference (B - A)</option>
+                                    <option value="complementA">Complement (A')</option>
+                                    <option value="complementB">Complement (B')</option>
+                                    <option value="isSubset">Is A a subset of B? (A &#8838; B)</option>
+                                    <option value="isProperSubset">Is A a proper subset of B? (A &#8834; B)</option>
+                                    <option value="areEqual">Are A and B equal?</option>
+                                    <option value="isDisjoint">Are A and B disjoint?</option>
+                                </select>
+                            </div>
+                            <button id="calculateSet" class="btn-primary">Calculate</button>
+                            <div class="result-box mt-4">
+                                <h4 class="font-semibold text-teal-800">Result:</h4>
+                                <pre id="setResult" class="text-slate-700"></pre>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="accordion-item bg-white p-4 rounded-lg shadow-sm border border-slate-200">
+                    <button class="accordion-header w-full flex justify-between items-center text-left text-xl font-semibold text-teal-700">
+                        <span>Practice Questions (Sets)</span>
+                        <span class="accordion-arrow text-teal-700">&#9654;</span>
+                    </button>
+                    <div class="accordion-content">
+                        <div class="prose max-w-none mt-4 text-slate-600 space-y-6">
+                            <div>
+                                <p><strong>1. (Simple)</strong> Let $U = \{1, 2, 3, 4, 5, 6, 7, 8, 9, 10\}$, $A = \{1, 3, 5, 7, 9\}$, $B = \{2, 4, 6, 8, 10\}$, and $C = \{1, 2, 3, 4, 5\}$. Find:</p>
+                                <ol type="a" class="list-lower-alpha list-inside">
+                                    <li>$A \cup B$</li>
+                                    <li>$A \cap C$</li>
+                                    <li>$C - A$</li>
+                                </ol>
+                                <button class="solution-toggle text-sm bg-slate-200 hover:bg-slate-300 text-slate-700 font-semibold py-1 px-3 rounded-md">Show Solution</button>
+                                <div class="solution hidden mt-2 p-3 bg-teal-50 border border-teal-200 rounded-lg">
+                                    <p>a. $A \cup B = \{1, 2, 3, 4, 5, 6, 7, 8, 9, 10\} = U$</p>
+                                    <p>b. $A \cap C = \{1, 3, 5\}$</p>
+                                    <p>c. $C - A = \{2, 4\}$</p>
+                                </div>
+                            </div>
+                            <div>
+                                <p><strong>2. (Medium)</strong> If set $X = \{a, b, c\}$, list all elements of $\mathcal{P}(X)$.</p>
+                                <button class="solution-toggle text-sm bg-slate-200 hover:bg-slate-300 text-slate-700 font-semibold py-1 px-3 rounded-md">Show Solution</button>
+                                <div class="solution hidden mt-2 p-3 bg-teal-50 border border-teal-200 rounded-lg">
+                                    <p>$\mathcal{P}(X) = \{\emptyset, \{a\}, \{b\}, \{c\}, \{a, b\}, \{a, c\}, \{b, c\}, \{a, b, c\}\}$. (There are $2^3 = 8$ subsets).</p>
+                                </div>
+                            </div>
+                            <div>
+                                <p><strong>3. (Complex)</strong> Prove using set identities: $(A \cap B) \cup (A \cap B^c) = A$.</p>
+                                <button class="solution-toggle text-sm bg-slate-200 hover:bg-slate-300 text-slate-700 font-semibold py-1 px-3 rounded-md">Show Solution</button>
+                                <div class="solution hidden mt-2 p-3 bg-teal-50 border border-teal-200 rounded-lg">
+                                    <p>$(A \cap B) \cup (A \cap B^c)$</p>
+                                    <p>$= A \cap (B \cup B^c)$ (Distributive Law)</p>
+                                    <p>$= A \cap U$ (Complement Law: $B \cup B^c = U$)</p>
+                                    <p>$= A$ (Identity Law: $A \cap U = A$)</p>
+                                    <p>Hence, $(A \cap B) \cup (A \cap B^c) = A$.</p>
+                                </div>
+                            </div>
+                            <div>
+                                <p><strong>4. (Complex)</strong> Given sets $A, B, C$. Simplify $A \cap (B \cup A^c)$.</p>
+                                <button class="solution-toggle text-sm bg-slate-200 hover:bg-slate-300 text-slate-700 font-semibold py-1 px-3 rounded-md">Show Solution</button>
+                                <div class="solution hidden mt-2 p-3 bg-teal-50 border border-teal-200 rounded-lg">
+                                    <p>$A \cap (B \cup A^c)$</p>
+                                    <p>$= (A \cap B) \cup (A \cap A^c)$ (Distributive Law)</p>
+                                    <p>$= (A \cap B) \cup \emptyset$ (Complement Law)</p>
+                                    <p>$= A \cap B$ (Identity Law)</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Rational Numbers Content -->
+            <section id="rational" class="content-section space-y-4 hidden">
+                <h2 class="text-3xl font-bold text-slate-700 mb-4">2. Rational Numbers ($\mathbb{Q}$)</h2>
+                <p class="mb-6 text-slate-600">A rational number is any number that can be expressed as a fraction $\frac{p}{q}$ of two integers, where the denominator $q$ is not zero. This section explores their properties, how to perform operations with them, and their representation as decimals. Use the rational number calculator to practice fraction arithmetic.</p>
+                <div class="grid md:grid-cols-2 gap-8">
+                    <div>
+                        <div class="accordion-item bg-white p-4 rounded-lg shadow-sm border border-slate-200">
+                             <button class="accordion-header w-full flex justify-between items-center text-left text-xl font-semibold text-teal-700">
+                                <span>Properties & Operations</span>
+                                <span class="accordion-arrow text-teal-700">&#9654;</span>
+                            </button>
+                            <div class="accordion-content">
+                                <div class="prose max-w-none mt-4 text-slate-600 space-y-4">
+                                   <p><strong>Definition:</strong> $\mathbb{Q} = \{\frac{p}{q} \mid p \in \mathbb{Z}, q \in \mathbb{Z}, q \neq 0\}$</p>
+                                   <p><strong>Decimal Form:</strong> Terminating (e.g., $0.25$) or repeating (e.g., $0.333\dots$).</p>
+                                   <p><strong>Operations:</strong></p>
+                                   <ul>
+                                       <li>**Addition:** $\frac{a}{b} + \frac{c}{d} = \frac{ad + bc}{bd}$</li>
+                                       <li>**Subtraction:** $\frac{a}{b} - \frac{c}{d} = \frac{ad - bc}{bd}$</li>
+                                       <li>**Multiplication:** $\frac{a}{b} \cdot \frac{c}{d} = \frac{ac}{bd}$</li>
+                                       <li>**Division:** $\frac{a}{b} \div \frac{c}{d} = \frac{ad}{bc}$ (for $c \neq 0$)</li>
+                                   </ul>
+                                   <p><strong>Density Property:</strong> Between any two distinct rational numbers, there exists another rational number. This means $\mathbb{Q}$ is dense on the number line.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="bg-white p-4 rounded-lg shadow-sm border border-slate-200">
+                            <h3 class="text-xl font-semibold text-teal-700 text-center mb-2">Real Numbers ($\mathbb{R}$)</h3>
+                            <p class="text-center text-sm text-slate-500 mb-4">The set of real numbers consists of both rational and irrational numbers. This chart illustrates their conceptual relationship.</p>
+                            <div class="chart-container">
+                                <canvas id="numberSetsChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="accordion-item bg-white p-4 rounded-lg shadow-sm border border-slate-200">
+                    <button class="accordion-header w-full flex justify-between items-center text-left text-xl font-semibold text-teal-700">
+                        <span>Converting Repeating Decimals</span>
+                        <span class="accordion-arrow text-teal-700">&#9654;</span>
+                    </button>
+                    <div class="accordion-content">
+                        <div class="prose max-w-none mt-4 text-slate-600 space-y-4">
+                            <p>To convert a repeating decimal to a fraction, set up an algebraic equation.</p>
+                            <p><strong>Example:</strong> Convert $0.121212\dots$ to a fraction.</p>
+                            <ol class="list-decimal list-inside">
+                                <li>Let $x = 0.121212\dots$</li>
+                                <li>Multiply by $10^n$ where $n$ is the number of repeating digits ($n=2$ here): $100x = 12.121212\dots$</li>
+                                <li>Subtract the first equation from the second: $100x - x = 12.121212\dots - 0.121212\dots \implies 99x = 12$</li>
+                                <li>Solve for $x$: $x = \frac{12}{99} = \frac{4}{33}$</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="accordion-item bg-white p-4 rounded-lg shadow-sm border border-slate-200">
+                    <button class="accordion-header w-full flex justify-between items-center text-left text-xl font-semibold text-teal-700">
+                        <span>Rational Number Calculator</span>
+                        <span class="accordion-arrow text-teal-700">&#9654;</span>
+                    </button>
+                    <div class="accordion-content">
+                        <div class="mt-4 space-y-4">
+                            <p class="text-slate-600">Input fractions as `numerator/denominator` (e.g., `1/2`).</p>
+                            <div class="input-group">
+                                <label for="frac1Input">Fraction 1:</label>
+                                <input type="text" id="frac1Input" placeholder="e.g., 1/2">
+                            </div>
+                            <div class="input-group">
+                                <label for="frac2Input">Fraction 2:</label>
+                                <input type="text" id="frac2Input" placeholder="e.g., 3/4">
+                            </div>
+                            <div class="input-group">
+                                <label for="rationalOperation">Operation:</label>
+                                <select id="rationalOperation" class="block w-full">
+                                    <option value="add">Add</option>
+                                    <option value="subtract">Subtract</option>
+                                    <option value="multiply">Multiply</option>
+                                    <option value="divide">Divide</option>
+                                </select>
+                            </div>
+                            <button id="calculateRational" class="btn-primary">Calculate</button>
+                            <div class="result-box mt-4">
+                                <h4 class="font-semibold text-teal-800">Result:</h4>
+                                <pre id="rationalResult" class="text-slate-700"></pre>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                 <div class="accordion-item bg-white p-4 rounded-lg shadow-sm border border-slate-200">
+                    <button class="accordion-header w-full flex justify-between items-center text-left text-xl font-semibold text-teal-700">
+                        <span>Practice Questions (Rational Numbers)</span>
+                        <span class="accordion-arrow text-teal-700">&#9654;</span>
+                    </button>
+                    <div class="accordion-content">
+                        <div class="prose max-w-none mt-4 text-slate-600 space-y-6">
+                            <div>
+                                <p><strong>1. (Simple)</strong> Perform the following operations and express your answer as a simplified fraction:</p>
+                                <ol type="a" class="list-lower-alpha list-inside">
+                                    <li>$\frac{2}{5} + \frac{3}{7}$</li>
+                                    <li>$\frac{5}{6} - \frac{1}{4}$</li>
+                                    <li>$\frac{7}{8} \times \frac{4}{21}$</li>
+                                </ol>
+                                <button class="solution-toggle text-sm bg-slate-200 hover:bg-slate-300 text-slate-700 font-semibold py-1 px-3 rounded-md">Show Solution</button>
+                                <div class="solution hidden mt-2 p-3 bg-teal-50 border border-teal-200 rounded-lg">
+                                    <p>a. $\frac{2}{5} + \frac{3}{7} = \frac{14 + 15}{35} = \frac{29}{35}$</p>
+                                    <p>b. $\frac{5}{6} - \frac{1}{4} = \frac{10 - 3}{12} = \frac{7}{12}$</p>
+                                    <p>c. $\frac{7}{8} \times \frac{4}{21} = \frac{28}{168} = \frac{1}{6}$</p>
+                                </div>
+                            </div>
+                            <div>
+                                <p><strong>2. (Medium)</strong> Convert the following repeating decimals to fractions:</p>
+                                <ol type="a" class="list-lower-alpha list-inside">
+                                    <li>$0.777\dots$</li>
+                                    <li>$0.454545\dots$</li>
+                                </ol>
+                                <button class="solution-toggle text-sm bg-slate-200 hover:bg-slate-300 text-slate-700 font-semibold py-1 px-3 rounded-md">Show Solution</button>
+                                <div class="solution hidden mt-2 p-3 bg-teal-50 border border-teal-200 rounded-lg">
+                                    <p>a. $x = 0.777\dots \implies 10x = 7.777\dots \implies 9x = 7 \implies x = \frac{7}{9}$</p>
+                                    <p>b. $x = 0.4545\dots \implies 100x = 45.4545\dots \implies 99x = 45 \implies x = \frac{45}{99} = \frac{5}{11}$</p>
+                                </div>
+                            </div>
+                            <div>
+                                <p><strong>3. (Complex)</strong> Is the sum of two rational numbers always rational? Prove or disprove.</p>
+                                <button class="solution-toggle text-sm bg-slate-200 hover:bg-slate-300 text-slate-700 font-semibold py-1 px-3 rounded-md">Show Solution</button>
+                                <div class="solution hidden mt-2 p-3 bg-teal-50 border border-teal-200 rounded-lg">
+                                    <p>Yes, the sum of two rational numbers is always rational.</p>
+                                    <p>Let $\frac{a}{b}$ and $\frac{c}{d}$ be two rational numbers, where $a, b, c, d \in \mathbb{Z}$ and $b, d \neq 0$.</p>
+                                    <p>Their sum is $\frac{a}{b} + \frac{c}{d} = \frac{ad + bc}{bd}$.</p>
+                                    <p>Since $a, b, c, d$ are integers, $ad$, $bc$, and $bd$ are also integers. Also, since $b \neq 0$ and $d \neq 0$, $bd \neq 0$.</p>
+                                    <p>Therefore, $\frac{ad + bc}{bd}$ is a fraction of two integers with a non-zero denominator, which by definition is a rational number.</p>
+                                </div>
+                            </div>
+                            <div>
+                                <p><strong>4. (Complex)</strong> Find a rational number between $\frac{1}{3}$ and $\frac{1}{2}$.</p>
+                                <button class="solution-toggle text-sm bg-slate-200 hover:bg-slate-300 text-slate-700 font-semibold py-1 px-3 rounded-md">Show Solution</button>
+                                <div class="solution hidden mt-2 p-3 bg-teal-50 border border-teal-200 rounded-lg">
+                                    <p>One way is to take the average: $\frac{\frac{1}{3} + \frac{1}{2}}{2} = \frac{\frac{2+3}{6}}{2} = \frac{\frac{5}{6}}{2} = \frac{5}{12}$.</p>
+                                    <p>Since $\frac{1}{3} = \frac{4}{12}$ and $\frac{1}{2} = \frac{6}{12}$, $\frac{5}{12}$ is indeed between them.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Irrational Numbers Content -->
+            <section id="irrational" class="content-section space-y-4 hidden">
+                <h2 class="text-3xl font-bold text-slate-700 mb-4">3. Irrational Numbers ($\mathbb{I}$)</h2>
+                <p class="mb-6 text-slate-600">An irrational number is a real number that cannot be expressed as a simple fraction. Its decimal representation is non-terminating and non-repeating. This section introduces famous irrationals, their properties under operations, and provides a classic proof of their existence.</p>
+
+                <div class="accordion-item bg-white p-4 rounded-lg shadow-sm border border-slate-200">
+                    <button class="accordion-header w-full flex justify-between items-center text-left text-xl font-semibold text-teal-700">
+                        <span>Definition and Properties</span>
+                        <span class="accordion-arrow text-teal-700">&#9654;</span>
+                    </button>
+                    <div class="accordion-content">
+                        <div class="prose max-w-none mt-4 text-slate-600 space-y-4">
+                            <p><strong>Definition:</strong> Real numbers that cannot be written as $\frac{p}{q}$ where $p, q \in \mathbb{Z}, q \neq 0$. Denoted as $\mathbb{I}$ or $\mathbb{R} \setminus \mathbb{Q}$.</p>
+                            <p><strong>Decimal Expansion:</strong> Non-terminating and non-repeating.</p>
+                            <p><strong>Examples:</strong> $\sqrt{2} \approx 1.41421356\dots$, $\pi \approx 3.14159265\dots$, $e \approx 2.71828182\dots$, $\sqrt{p}$ where $p$ is a non-perfect square prime number.</p>
+                            <p><strong>Operations with Irrational Numbers:</strong>
+                                <ul>
+                                    <li>**Rational $\pm$ Irrational = Irrational:** E.g., $2 + \sqrt{3}$ is irrational.</li>
+                                    <li>**Non-zero Rational $\times$ Irrational = Irrational:** E.g., $5\sqrt{2}$ is irrational.</li>
+                                    <li>**Irrational $\pm$ Irrational:** Can be Rational or Irrational.
+                                        <ul>
+                                            <li>E.g., $\sqrt{2} + (-\sqrt{2}) = 0$ (Rational)</li>
+                                            <li>E.g., $\sqrt{2} + \sqrt{3}$ (Irrational)</li>
+                                        </ul>
+                                    </li>
+                                    <li>**Irrational $\times$ Irrational:** Can be Rational or Irrational.
+                                        <ul>
+                                            <li>E.g., $\sqrt{2} \times \sqrt{2} = 2$ (Rational)</li>
+                                            <li>E.g., $\sqrt{2} \times \sqrt{3} = \sqrt{6}$ (Irrational)</li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="accordion-item bg-white p-4 rounded-lg shadow-sm border border-slate-200">
+                    <button class="accordion-header w-full flex justify-between items-center text-left text-xl font-semibold text-teal-700">
+                        <span>Proof of Irrationality (Example: $\sqrt{2}$)</span>
+                        <span class="accordion-arrow text-teal-700">&#9654;</span>
+                    </button>
+                    <div class="accordion-content">
+                        <div class="prose max-w-none mt-4 text-slate-600 space-y-4">
+                           <p>A classic proof by contradiction, demonstrating that assuming $\sqrt{2}$ is rational leads to a logical inconsistency.</p>
+                           <ol class="list-decimal list-inside">
+                               <li>**Assumption:** Assume, for the sake of contradiction, that $\sqrt{2}$ is rational. This means $\sqrt{2} = \frac{p}{q}$ where $p$ and $q$ are integers, $q \neq 0$, and $\frac{p}{q}$ is in its simplest form (i.e., $p$ and $q$ have no common factors other than 1).</li>
+                               <li>**Squaring:** $(\sqrt{2})^2 = (\frac{p}{q})^2 \implies 2 = \frac{p^2}{q^2} \implies 2q^2 = p^2$.</li>
+                               <li>**Implication for p:** Since $p^2 = 2q^2$, $p^2$ is an even number. If $p^2$ is even, then $p$ must also be an even number (because the square of an odd number is odd).</li>
+                               <li>**Substitution:** Since $p$ is even, we can write $p = 2k$ for some integer $k$. Substitute this into the equation: $2q^2 = (2k)^2 = 4k^2$.</li>
+                               <li>**Implication for q:** Divide by 2: $q^2 = 2k^2$. This means $q^2$ is an even number. If $q^2$ is even, then $q$ must also be an even number.</li>
+                               <li>**Contradiction:** We have shown that both $p$ and $q$ are even. This implies they both have a common factor of 2. However, our initial assumption was that $\frac{p}{q}$ was in its simplest form, meaning $p$ and $q$ have no common factors other than 1. This is a contradiction.</li>
+                               <li>**Conclusion:** Therefore, our initial assumption that $\sqrt{2}$ is rational must be false. Hence, $\sqrt{2}$ is an irrational number.</li>
+                           </ol>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="accordion-item bg-white p-4 rounded-lg shadow-sm border border-slate-200">
+                    <button class="accordion-header w-full flex justify-between items-center text-left text-xl font-semibold text-teal-700">
+                        <span>Practice Questions (Irrational Numbers)</span>
+                        <span class="accordion-arrow text-teal-700">&#9654;</span>
+                    </button>
+                    <div class="accordion-content">
+                         <div class="prose max-w-none mt-4 text-slate-600 space-y-6">
+                            <div>
+                                <p><strong>1. (Simple)</strong> Classify the following numbers as rational or irrational:</p>
+                                <ol type="a" class="list-lower-alpha list-inside">
+                                    <li>$\frac{22}{7}$</li>
+                                    <li>$\sqrt{9}$</li>
+                                    <li>$0.1010010001\dots$ (pattern of increasing zeros)</li>
+                                    <li>$3\pi$</li>
+                                </ol>
+                                <button class="solution-toggle text-sm bg-slate-200 hover:bg-slate-300 text-slate-700 font-semibold py-1 px-3 rounded-md">Show Solution</button>
+                                <div class="solution hidden mt-2 p-3 bg-teal-50 border border-teal-200 rounded-lg">
+                                    <p>a. $\frac{22}{7}$: Rational (it's a fraction of two integers).</p>
+                                    <p>b. $\sqrt{9} = 3$: Rational (it simplifies to an integer).</p>
+                                    <p>c. $0.1010010001\dots$: Irrational (non-terminating and non-repeating pattern).</p>
+                                    <p>d. $3\pi$: Irrational (product of a non-zero rational and an irrational number is irrational).</p>
+                                </div>
+                            </div>
+                            <div>
+                                <p><strong>2. (Medium)</strong> Is $2\sqrt{5} + 3\sqrt{5}$ rational or irrational? Justify your answer.</p>
+                                <button class="solution-toggle text-sm bg-slate-200 hover:bg-slate-300 text-slate-700 font-semibold py-1 px-3 rounded-md">Show Solution</button>
+                                <div class="solution hidden mt-2 p-3 bg-teal-50 border border-teal-200 rounded-lg">
+                                    <p>$2\sqrt{5} + 3\sqrt{5} = (2+3)\sqrt{5} = 5\sqrt{5}$.</p>
+                                    <p>This is irrational. It is the product of a non-zero rational number (5) and an irrational number ($\sqrt{5}$), which results in an irrational number.</p>
+                                </div>
+                            </div>
+                            <div>
+                                <p><strong>3. (Complex)</strong> Prove that $\sqrt{3}$ is irrational using a similar method to the proof for $\sqrt{2}$.</p>
+                                <button class="solution-toggle text-sm bg-slate-200 hover:bg-slate-300 text-slate-700 font-semibold py-1 px-3 rounded-md">Show Solution</button>
+                                <div class="solution hidden mt-2 p-3 bg-teal-50 border border-teal-200 rounded-lg">
+                                    <p><strong>Proof that $\sqrt{3}$ is irrational:</strong></p>
+                                    <p>1. Assume, for contradiction, that $\sqrt{3}$ is rational. Then $\sqrt{3} = \frac{p}{q}$ where $p, q \in \mathbb{Z}$, $q \neq 0$, and $\frac{p}{q}$ is in simplest form.</p>
+                                    <p>2. Square both sides: $3 = \frac{p^2}{q^2} \implies 3q^2 = p^2$.</p>
+                                    <p>3. Since $p^2 = 3q^2$, $p^2$ is a multiple of 3. If $p^2$ is a multiple of 3, then $p$ must also be a multiple of 3.</p>
+                                    <p>4. Let $p = 3k$ for some integer $k$. Substitute into $3q^2 = p^2$: $3q^2 = (3k)^2 = 9k^2$.</p>
+                                    <p>5. Divide by 3: $q^2 = 3k^2$. This means $q^2$ is a multiple of 3, so $q$ must also be a multiple of 3.</p>
+                                    <p>6. Contradiction: Both $p$ and $q$ are multiples of 3, which contradicts our assumption that $\frac{p}{q}$ was in simplest form.</p>
+                                    <p>7. Conclusion: Thus, $\sqrt{3}$ is an irrational number.</p>
+                                </div>
+                            </div>
+                            <div>
+                                <p><strong>4. (Complex)</strong> Is the product of two irrational numbers always irrational? Give examples to support your answer.</p>
+                                <button class="solution-toggle text-sm bg-slate-200 hover:bg-slate-300 text-slate-700 font-semibold py-1 px-3 rounded-md">Show Solution</button>
+                                <div class="solution hidden mt-2 p-3 bg-teal-50 border border-teal-200 rounded-lg">
+                                    <p>No, the product of two irrational numbers is not always irrational. It can be rational or irrational.</p>
+                                    <p><strong>Example (Rational Product):</strong> $\sqrt{2} \times \sqrt{2} = 2$ (rational)</p>
+                                    <p><strong>Example (Irrational Product):</strong> $\sqrt{2} \times \sqrt{3} = \sqrt{6}$ (irrational)</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Surds Content -->
+            <section id="surds" class="content-section space-y-4 hidden">
+                <h2 class="text-3xl font-bold text-slate-700 mb-4">4. Surds (Radicals)</h2>
+                <p class="mb-6 text-slate-600">A surd (or radical) is an irrational number that can be expressed as the root of an integer or a rational number, where the root cannot be simplified to an integer or a rational number. This section demonstrates how to simplify and perform arithmetic operations with surds, including the important technique of rationalizing the denominator. Use the surds calculator to simplify and rationalize expressions.</p>
+                
+                <div class="accordion-item bg-white p-4 rounded-lg shadow-sm border border-slate-200">
+                    <button class="accordion-header w-full flex justify-between items-center text-left text-xl font-semibold text-teal-700">
+                        <span>Definition and Properties</span>
+                        <span class="accordion-arrow text-teal-700">&#9654;</span>
+                    </button>
+                    <div class="accordion-content">
+                        <div class="prose max-w-none mt-4 text-slate-600 space-y-4">
+                           <p>A number of the form $\sqrt[n]{a}$ is a surd if $a$ is a rational number and $\sqrt[n]{a}$ is irrational.</p>
+                           <p><strong>Examples:</strong> $\sqrt{2}$, $\sqrt{5}$, $\sqrt[3]{7}$.</p>
+                           <p><strong>Non-examples:</strong> $\sqrt{4} = 2$ (rational), $\sqrt[3]{8} = 2$ (rational).</p>
+                           <p><strong>Properties of Surds:</strong></p>
+                           <ul>
+                               <li>$\sqrt[n]{a^n} = a$ (if $a \ge 0$ for even $n$)</li>
+                               <li>$\sqrt[n]{ab} = \sqrt[n]{a} \cdot \sqrt[n]{b}$</li>
+                               <li>$\sqrt[n]{\frac{a}{b}} = \frac{\sqrt[n]{a}}{\sqrt[n]{b}}$</li>
+                               <li>$(\sqrt[n]{a})^m = \sqrt[n]{a^m}$</li>
+                               <li>$\sqrt[m]{\sqrt[n]{a}} = \sqrt[mn]{a}$</li>
+                           </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="accordion-item bg-white p-4 rounded-lg shadow-sm border border-slate-200">
+                    <button class="accordion-header w-full flex justify-between items-center text-left text-xl font-semibold text-teal-700">
+                        <span>Simplifying and Operations with Surds</span>
+                        <span class="accordion-arrow text-teal-700">&#9654;</span>
+                    </button>
+                    <div class="accordion-content">
+                        <div class="prose max-w-none mt-4 text-slate-600 space-y-4">
+                           <p><strong>Simplifying:</strong> Find the largest perfect square factor.</p>
+                           <p>$\sqrt{72} = \sqrt{36 \times 2} = 6\sqrt{2}$</p>
+                           <p>$\sqrt[3]{54} = \sqrt[3]{27 \times 2} = 3\sqrt[3]{2}$</p>
+                           <p><strong>Addition/Subtraction:</strong> Only "like surds" can be combined.</p>
+                           <p>$\sqrt{18} + \sqrt{8} = \sqrt{9 \times 2} + \sqrt{4 \times 2} = 3\sqrt{2} + 2\sqrt{2} = 5\sqrt{2}$</p>
+                           <p><strong>Multiplication:</strong> Multiply coefficients and radicands.</p>
+                           <p>$(2\sqrt{3}) \times (4\sqrt{5}) = (2 \times 4)\sqrt{3 \times 5} = 8\sqrt{15}$</p>
+                           <p>$(2 + \sqrt{3})(4 - \sqrt{3}) = 8 - 2\sqrt{3} + 4\sqrt{3} - 3 = 5 + 2\sqrt{3}$</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="accordion-item bg-white p-4 rounded-lg shadow-sm border border-slate-200">
+                    <button class="accordion-header w-full flex justify-between items-center text-left text-xl font-semibold text-teal-700">
+                        <span>Rationalizing the Denominator</span>
+                        <span class="accordion-arrow text-teal-700">&#9654;</span>
+                    </button>
+                    <div class="accordion-content">
+                        <div class="prose max-w-none mt-4 text-slate-600 space-y-4">
+                            <p>To remove a surd from the denominator, multiply by a form of 1 (often involving the conjugate).</p>
+                            <p><strong>Case 1: Monomial Denominator ($\frac{a}{\sqrt{b}}$)</strong></p>
+                            <p>$\frac{3}{\sqrt{2}} = \frac{3}{\sqrt{2}} \times \frac{\sqrt{2}}{\sqrt{2}} = \frac{3\sqrt{2}}{2}$</p>
+                            <p><strong>Case 2: Binomial Denominator ($a \pm \sqrt{b}$ or $\sqrt{a} \pm \sqrt{b}$)</strong></p>
+                            <p>Multiply by the **conjugate**. The conjugate of $(x+y)$ is $(x-y)$. This uses the property $(x+y)(x-y) = x^2 - y^2$.</p>
+                            <p>$\frac{1}{3 + \sqrt{2}} = \frac{1}{3 + \sqrt{2}} \times \frac{3 - \sqrt{2}}{3 - \sqrt{2}} = \frac{3 - \sqrt{2}}{(3)^2 - (\sqrt{2})^2} = \frac{3 - \sqrt{2}}{9 - 2} = \frac{3 - \sqrt{2}}{7}$</p>
+                            <p>$\frac{\sqrt{6} + \sqrt{2}}{\sqrt{6} - \sqrt{2}} = \frac{\sqrt{6} + \sqrt{2}}{\sqrt{6} - \sqrt{2}} \times \frac{\sqrt{6} + \sqrt{2}}{\sqrt{6} + \sqrt{2}} = \frac{(\sqrt{6})^2 + 2\sqrt{12} + (\sqrt{2})^2}{(\sqrt{6})^2 - (\sqrt{2})^2} = \frac{6 + 2(2\sqrt{3}) + 2}{6 - 2} = \frac{8 + 4\sqrt{3}}{4} = 2 + \sqrt{3}$</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="accordion-item bg-white p-4 rounded-lg shadow-sm border border-slate-200">
+                    <button class="accordion-header w-full flex justify-between items-center text-left text-xl font-semibold text-teal-700">
+                        <span>Surds Calculator</span>
+                        <span class="accordion-arrow text-teal-700">&#9654;</span>
+                    </button>
+                    <div class="accordion-content">
+                        <div class="mt-4 space-y-4">
+                            <p class="text-slate-600">Input surds as `a*sqrt(b)` (e.g., `2*sqrt(3)`). For single surds, use `sqrt(b)`. For rational numbers, use just the number.</p>
+                            <div class="input-group">
+                                <label for="surd1Input">Expression 1:</label>
+                                <input type="text" id="surd1Input" placeholder="e.g., 2*sqrt(3) or 5">
+                            </div>
+                            <div class="input-group">
+                                <label for="surd2Input">Expression 2 (for operations):</label>
+                                <input type="text" id="surd2Input" placeholder="e.g., sqrt(12) or 7">
+                            </div>
+                            <div class="input-group">
+                                <label for="surdOperation">Operation:</label>
+                                <select id="surdOperation" class="block w-full">
+                                    <option value="simplify1">Simplify Expression 1</option>
+                                    <option value="add">Add (Expr1 + Expr2)</option>
+                                    <option value="subtract">Subtract (Expr1 - Expr2)</option>
+                                    <option value="multiply">Multiply (Expr1 * Expr2)</option>
+                                    <option value="rationalize1">Rationalize Denominator (Expr1 is numerator, Expr2 is denominator)</option>
+                                </select>
+                            </div>
+                            <button id="calculateSurd" class="btn-primary">Calculate</button>
+                            <div class="result-box mt-4">
+                                <h4 class="font-semibold text-teal-800">Result:</h4>
+                                <pre id="surdResult" class="text-slate-700"></pre>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="accordion-item bg-white p-4 rounded-lg shadow-sm border border-slate-200">
+                    <button class="accordion-header w-full flex justify-between items-center text-left text-xl font-semibold text-teal-700">
+                        <span>Practice Questions (Surds)</span>
+                        <span class="accordion-arrow text-teal-700">&#9654;</span>
+                    </button>
+                    <div class="accordion-content">
+                        <div class="prose max-w-none mt-4 text-slate-600 space-y-6">
+                            <div>
+                                <p><strong>1. (Simple)</strong> Simplify the following surds:</p>
+                                <ol type="a" class="list-lower-alpha list-inside">
+                                    <li>$\sqrt{48}$</li>
+                                    <li>$\sqrt{125}$</li>
+                                </ol>
+                                <button class="solution-toggle text-sm bg-slate-200 hover:bg-slate-300 text-slate-700 font-semibold py-1 px-3 rounded-md">Show Solution</button>
+                                <div class="solution hidden mt-2 p-3 bg-teal-50 border border-teal-200 rounded-lg">
+                                    <p>a. $\sqrt{48} = \sqrt{16 \times 3} = 4\sqrt{3}$</p>
+                                    <p>b. $\sqrt{125} = \sqrt{25 \times 5} = 5\sqrt{5}$</p>
+                                </div>
+                            </div>
+                            <div>
+                                <p><strong>2. (Medium)</strong> Perform the following operations and simplify your answer:</p>
+                                <ol type="a" class="list-lower-alpha list-inside">
+                                    <li>$4\sqrt{7} + \sqrt{28}$</li>
+                                    <li>$3\sqrt{5} \times 2\sqrt{10}$</li>
+                                </ol>
+                                <button class="solution-toggle text-sm bg-slate-200 hover:bg-slate-300 text-slate-700 font-semibold py-1 px-3 rounded-md">Show Solution</button>
+                                <div class="solution hidden mt-2 p-3 bg-teal-50 border border-teal-200 rounded-lg">
+                                    <p>a. $4\sqrt{7} + \sqrt{28} = 4\sqrt{7} + \sqrt{4 \times 7} = 4\sqrt{7} + 2\sqrt{7} = 6\sqrt{7}$</p>
+                                    <p>b. $3\sqrt{5} \times 2\sqrt{10} = 6\sqrt{50} = 6\sqrt{25 \times 2} = 6 \times 5\sqrt{2} = 30\sqrt{2}$</p>
+                                </div>
+                            </div>
+                            <div>
+                                <p><strong>3. (Complex)</strong> Rationalize the denominator:</p>
+                                <ol type="a" class="list-lower-alpha list-inside">
+                                    <li>$\frac{5}{\sqrt{7}}$</li>
+                                    <li>$\frac{\sqrt{6} + \sqrt{2}}{\sqrt{6} - \sqrt{2}}$</li>
+                                </ol>
+                                <button class="solution-toggle text-sm bg-slate-200 hover:bg-slate-300 text-slate-700 font-semibold py-1 px-3 rounded-md">Show Solution</button>
+                                <div class="solution hidden mt-2 p-3 bg-teal-50 border border-teal-200 rounded-lg">
+                                    <p>a. $\frac{5}{\sqrt{7}} = \frac{5\sqrt{7}}{7}$</p>
+                                    <p>b. $\frac{\sqrt{6} + \sqrt{2}}{\sqrt{6} - \sqrt{2}} = \frac{(\sqrt{6} + \sqrt{2})^2}{(\sqrt{6})^2 - (\sqrt{2})^2} = \frac{6 + 2\sqrt{12} + 2}{6 - 2} = \frac{8 + 4\sqrt{3}}{4} = 2 + \sqrt{3}$</p>
+                                </div>
+                            </div>
+                            <div>
+                                <p><strong>4. (Complex)</strong> Solve for $x$: $\sqrt{x+1} = 3 - \sqrt{x-2}$.</p>
+                                <button class="solution-toggle text-sm bg-slate-200 hover:bg-slate-300 text-slate-700 font-semibold py-1 px-3 rounded-md">Show Solution</button>
+                                <div class="solution hidden mt-2 p-3 bg-teal-50 border border-teal-200 rounded-lg">
+                                    <p>$\sqrt{x+1} = 3 - \sqrt{x-2}$</p>
+                                    <p>Square both sides:</p>
+                                    <p>$x+1 = (3 - \sqrt{x-2})^2$</p>
+                                    <p>$x+1 = 9 - 6\sqrt{x-2} + (x-2)$</p>
+                                    <p>$x+1 = 7 + x - 6\sqrt{x-2}$</p>
+                                    <p>$1 = 7 - 6\sqrt{x-2}$</p>
+                                    <p>$6\sqrt{x-2} = 6$</p>
+                                    <p>$\sqrt{x-2} = 1$</p>
+                                    <p>Square both sides again:</p>
+                                    <p>$x-2 = 1$</p>
+                                    <p>$x = 3$</p>
+                                    <p>Check the solution: $\sqrt{3+1} = 3 - \sqrt{3-2} \implies \sqrt{4} = 3 - \sqrt{1} \implies 2 = 3 - 1 \implies 2 = 2$. The solution is valid.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script>
+        // Helper function for GCD (Greatest Common Divisor)
+        function gcd(a, b) {
+            a = Math.abs(a);
+            b = Math.abs(b);
+            while (b) {
+                [a, b] = [b, a % b];
+            }
+            return a;
+        }
+
+        // Helper function to simplify a fraction
+        function simplifyFraction(numerator, denominator) {
+            if (denominator === 0) return "Undefined";
+            if (numerator === 0) return "0";
+            const common = gcd(numerator, denominator);
+            let num = numerator / common;
+            let den = denominator / common;
+            if (den < 0) { // Ensure denominator is positive
+                num = -num;
+                den = -den;
+            }
+            return num + "/" + den;
+        }
+
+        // Helper function to parse fraction string "num/den"
+        function parseFraction(fracStr) {
+            const parts = fracStr.split('/').map(Number);
+            if (parts.length === 2 && !isNaN(parts[0]) && !isNaN(parts[1]) && parts[1] !== 0) {
+                return { num: parts[0], den: parts[1] };
+            }
+            if (parts.length === 1 && !isNaN(parts[0])) { // Handle integers as fractions
+                return { num: parts[0], den: 1 };
+            }
+            return null; // Invalid format
+        }
+
+        // Helper function to simplify a surd: sqrt(N) -> a*sqrt(b)
+        function simplifySquareRoot(N) {
+            if (N < 0) return { coeff: 1, radicand: N, error: "Cannot simplify sqrt of negative number" };
+            if (N === 0) return { coeff: 0, radicand: 1 }; // Represents 0
+            
+            let a = 1;
+            let b = N;
+            for (let i = 2; i * i <= b; i++) {
+                while (b % (i * i) === 0) {
+                    a *= i;
+                    b /= (i * i);
+                }
+            }
+            return { coeff: a, radicand: b };
+        }
+
+        // Helper function to format surd object to string
+        function formatSurd(surdObj) {
+            if (surdObj.error) return surdObj.error;
+            if (surdObj.coeff === 0) return "0";
+            if (surdObj.radicand === 1) return surdObj.coeff.toString();
+            if (surdObj.coeff === 1) return `sqrt(${surdObj.radicand})`;
+            if (surdObj.coeff === -1) return `-sqrt(${surdObj.radicand})`;
+            return `${surdObj.coeff}*sqrt(${surdObj.radicand})`;
+        }
+
+        // Helper function to parse surd string "a*sqrt(b)" or "sqrt(b)" or "a"
+        function parseSurd(surdStr) {
+            surdStr = surdStr.trim();
+            const sqrtMatch = surdStr.match(/^(-?\d*\.?\d*)\*sqrt\((\d+)\)$/);
+            if (sqrtMatch) {
+                let coeff = sqrtMatch[1] === '-' ? -1 : (sqrtMatch[1] === '' ? 1 : parseFloat(sqrtMatch[1]));
+                return simplifySquareRoot(coeff * coeff * parseInt(sqrtMatch[2])); // Simplify after parsing
+            }
+            const singleSqrtMatch = surdStr.match(/^sqrt\((\d+)\)$/);
+            if (singleSqrtMatch) {
+                return simplifySquareRoot(parseInt(singleSqrtMatch[1]));
+            }
+            const rationalMatch = surdStr.match(/^(-?\d*\.?\d+)$/);
+            if (rationalMatch) {
+                return { coeff: parseFloat(rationalMatch[1]), radicand: 1 }; // Represent rational as a*sqrt(1)
+            }
+            return null; // Invalid format
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            // Register Service Worker
+            if ('serviceWorker' in navigator) {
+                navigator.serviceWorker.register('service-worker.js')
+                .then(function(registration) {
+                    console.log('Service Worker Registered!', registration);
+                })
+                .catch(function(err) {
+                    console.log('Service Worker registration failed: ', err);
+                });
+            }
+
+            // Render LaTeX
+            renderMathInElement(document.body, {
+                delimiters: [
+                    {left: '$$', right: '$$', display: true},
+                    {left: '$', right: '$', display: false},
+                    {left: '\\(', right: '\\)', display: false},
+                    {left: '\\[', right: '\\]', display: true}
+                ],
+                throwOnError : false
+            });
+
+            // Tab Navigation
+            const tabs = document.querySelectorAll('.nav-tab');
+            const contentSections = document.querySelectorAll('.content-section');
+
+            function setActiveTab(tab) {
+                tabs.forEach(t => {
+                    t.classList.remove('border-teal-500', 'text-teal-600');
+                    t.classList.add('border-transparent', 'hover:text-slate-600', 'hover:border-slate-300');
+                });
+                tab.classList.add('border-teal-500', 'text-teal-600');
+                tab.classList.remove('border-transparent', 'hover:text-slate-600', 'hover:border-slate-300');
+            }
+
+            tabs.forEach(tab => {
+                tab.addEventListener('click', () => {
+                    const target = tab.getAttribute('data-target');
+                    
+                    contentSections.forEach(section => {
+                        if (section.id === target) {
+                            section.classList.remove('hidden');
+                        } else {
+                            section.classList.add('hidden');
+                        }
+                    });
+
+                    setActiveTab(tab);
+                });
+            });
+
+            const initialTab = document.querySelector('.nav-tab[data-target="sets"]');
+            setActiveTab(initialTab);
+            document.getElementById('sets').classList.remove('hidden');
+
+            // Accordion Logic
+            const accordions = document.querySelectorAll('.accordion-item');
+            accordions.forEach(item => {
+                const header = item.querySelector('.accordion-header');
+                const content = item.querySelector('.accordion-content');
+                const arrow = item.querySelector('.accordion-arrow');
+
+                header.addEventListener('click', () => {
+                    content.classList.toggle('open');
+                    arrow.classList.toggle('rotated');
+                });
+            });
+
+            // Solution Toggle Logic
+            const solutionToggles = document.querySelectorAll('.solution-toggle');
+            solutionToggles.forEach(toggle => {
+                toggle.addEventListener('click', () => {
+                    const solution = toggle.nextElementSibling;
+                    solution.classList.toggle('hidden');
+                    toggle.textContent = solution.classList.contains('hidden') ? 'Show Solution' : 'Hide Solution';
+                });
+            });
+
+            // Chart.js - Number Sets Chart
+            const ctx = document.getElementById('numberSetsChart');
+            if(ctx) {
+                new Chart(ctx, {
+                    type: 'doughnut',
+                    data: {
+                        labels: ['Rational Numbers (Dense but Countable)', 'Irrational Numbers (Dense and Uncountable)'],
+                        datasets: [{
+                            label: 'Types of Real Numbers',
+                            data: [50, 50],
+                            backgroundColor: [
+                                'rgba(13, 148, 136, 0.6)',
+                                'rgba(251, 191, 36, 0.6)'
+                            ],
+                            borderColor: [
+                                'rgba(15, 118, 110, 1)',
+                                'rgba(217, 119, 6, 1)'
+                            ],
+                            borderWidth: 1
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: {
+                                position: 'top',
+                                labels: {
+                                    font: {
+                                        size: 14
+                                    }
+                                }
+                            },
+                            tooltip: {
+                                callbacks: {
+                                    label: function(context) {
+                                        let label = context.label || '';
+                                        if (label) {
+                                            label += ': ';
+                                        }
+                                        label += 'Forms a part of the real number line.';
+                                        return label;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                });
+            }
+
+            // Set Calculator Logic
+            const setAInput = document.getElementById('setAInput');
+            const setBInput = document.getElementById('setBInput');
+            const setUInput = document.getElementById('setUInput');
+            const setOperation = document.getElementById('setOperation');
+            const calculateSetBtn = document.getElementById('calculateSet');
+            const setResult = document.getElementById('setResult');
+
+            function parseSet(input) {
+                return new Set(input.split(',').map(item => item.trim()).filter(item => item !== ''));
+            }
+
+            calculateSetBtn.addEventListener('click', () => {
+                try {
+                    const setA = parseSet(setAInput.value);
+                    const setB = parseSet(setBInput.value);
+                    const setU = parseSet(setUInput.value);
+                    const operation = setOperation.value;
+                    let result;
+
+                    switch (operation) {
+                        case 'union':
+                            result = new Set([...setA, ...setB]);
+                            break;
+                        case 'intersection':
+                            result = new Set([...setA].filter(x => setB.has(x)));
+                            break;
+                        case 'differenceAB':
+                            result = new Set([...setA].filter(x => !setB.has(x)));
+                            break;
+                        case 'differenceBA':
+                            result = new Set([...setB].filter(x => !setA.has(x)));
+                            break;
+                        case 'complementA':
+                            if (setU.size === 0 && setA.size > 0) {
+                                setResult.textContent = "Error: Universal Set (U) is required for complement operations.";
+                                return;
+                            }
+                            result = new Set([...setU].filter(x => !setA.has(x)));
+                            break;
+                        case 'complementB':
+                            if (setU.size === 0 && setB.size > 0) {
+                                setResult.textContent = "Error: Universal Set (U) is required for complement operations.";
+                                return;
+                            }
+                            result = new Set([...setU].filter(x => !setB.has(x)));
+                            break;
+                        case 'isSubset':
+                            result = [...setA].every(x => setB.has(x)) ? "True" : "False";
+                            break;
+                        case 'isProperSubset':
+                            result = ([...setA].every(x => setB.has(x)) && setA.size < setB.size) ? "True" : "False";
+                            break;
+                        case 'areEqual':
+                            result = (setA.size === setB.size && [...setA].every(x => setB.has(x))) ? "True" : "False";
+                            break;
+                        case 'isDisjoint':
+                            result = ![...setA].some(x => setB.has(x)) ? "True" : "False";
+                            break;
+                        default:
+                            result = "Invalid operation";
+                    }
+                    if (typeof result === 'object' && result instanceof Set) {
+                        setResult.textContent = `{${[...result].join(', ')}}`;
+                    } else {
+                        setResult.textContent = result;
+                    }
+                } catch (e) {
+                    setResult.textContent = "Error: Invalid set input. Please use comma-separated values.";
+                    console.error(e);
+                }
+            });
+
+            // Rational Number Calculator Logic
+            const frac1Input = document.getElementById('frac1Input');
+            const frac2Input = document.getElementById('frac2Input');
+            const rationalOperation = document.getElementById('rationalOperation');
+            const calculateRationalBtn = document.getElementById('calculateRational');
+            const rationalResult = document.getElementById('rationalResult');
+
+            calculateRationalBtn.addEventListener('click', () => {
+                const frac1 = parseFraction(frac1Input.value);
+                const frac2 = parseFraction(frac2Input.value);
+                const operation = rationalOperation.value;
+
+                if (!frac1 || (operation !== 'simplify' && !frac2)) {
+                    rationalResult.textContent = "Error: Invalid fraction format. Use 'numerator/denominator' or just 'integer'.";
+                    return;
+                }
+
+                let num, den;
+
+                try {
+                    switch (operation) {
+                        case 'add':
+                            num = frac1.num * frac2.den + frac2.num * frac1.den;
+                            den = frac1.den * frac2.den;
+                            rationalResult.textContent = simplifyFraction(num, den);
+                            break;
+                        case 'subtract':
+                            num = frac1.num * frac2.den - frac2.num * frac1.den;
+                            den = frac1.den * frac2.den;
+                            rationalResult.textContent = simplifyFraction(num, den);
+                            break;
+                        case 'multiply':
+                            num = frac1.num * frac2.num;
+                            den = frac1.den * frac2.den;
+                            rationalResult.textContent = simplifyFraction(num, den);
+                            break;
+                        case 'divide':
+                            if (frac2.num === 0) {
+                                rationalResult.textContent = "Error: Division by zero.";
+                                return;
+                            }
+                            num = frac1.num * frac2.den;
+                            den = frac1.den * frac2.num;
+                            rationalResult.textContent = simplifyFraction(num, den);
+                            break;
+                        default:
+                            rationalResult.textContent = "Invalid operation.";
+                    }
+                } catch (e) {
+                    rationalResult.textContent = "Error during calculation.";
+                    console.error(e);
+                }
+            });
+
+            // Surds Calculator Logic
+            const surd1Input = document.getElementById('surd1Input');
+            const surd2Input = document.getElementById('surd2Input');
+            const surdOperation = document.getElementById('surdOperation');
+            const calculateSurdBtn = document.getElementById('calculateSurd');
+            const surdResult = document.getElementById('surdResult');
+
+            calculateSurdBtn.addEventListener('click', () => {
+                const expr1 = parseSurd(surd1Input.value);
+                const expr2 = surd2Input.value ? parseSurd(surd2Input.value) : null;
+                const operation = surdOperation.value;
+
+                if (!expr1) {
+                    surdResult.textContent = "Error: Invalid format for Expression 1. Use 'a*sqrt(b)', 'sqrt(b)', or 'a'.";
+                    return;
+                }
+                if (expr1.error) {
+                    surdResult.textContent = expr1.error;
+                    return;
+                }
+                if (['add', 'subtract', 'multiply', 'rationalize1'].includes(operation) && !expr2) {
+                     surdResult.textContent = "Error: Expression 2 is required for this operation.";
+                     return;
+                }
+                if (expr2 && expr2.error) {
+                    surdResult.textContent = expr2.error;
+                    return;
+                }
+
+                let result;
+                try {
+                    switch (operation) {
+                        case 'simplify1':
+                            result = formatSurd(expr1);
+                            break;
+                        case 'add':
+                            if (expr1.radicand !== expr2.radicand) {
+                                result = `Cannot combine: ${formatSurd(expr1)} + ${formatSurd(expr2)}. Radicands must be the same.`;
+                            } else {
+                                result = formatSurd({ coeff: expr1.coeff + expr2.coeff, radicand: expr1.radicand });
+                            }
+                            break;
+                        case 'subtract':
+                            if (expr1.radicand !== expr2.radicand) {
+                                result = `Cannot combine: ${formatSurd(expr1)} - ${formatSurd(expr2)}. Radicands must be the same.`;
+                            } else {
+                                result = formatSurd({ coeff: expr1.coeff - expr2.coeff, radicand: expr1.radicand });
+                            }
+                            break;
+                        case 'multiply':
+                            const newCoeff = expr1.coeff * expr2.coeff;
+                            const newRadicand = expr1.radicand * expr2.radicand;
+                            result = formatSurd(simplifySquareRoot(newCoeff * newCoeff * newRadicand));
+                            if (newCoeff < 0) { // Handle negative coefficient after simplification
+                                const simplified = simplifySquareRoot(newRadicand);
+                                result = `-${Math.abs(newCoeff) * simplified.coeff}*sqrt(${simplified.radicand})`;
+                                if (simplified.radicand === 1) result = `-${Math.abs(newCoeff) * simplified.coeff}`;
+                            } else {
+                                result = formatSurd(simplifySquareRoot(newCoeff * newCoeff * newRadicand));
+                            }
+                            // Special handling for a*sqrt(1) cases
+                            if (result.includes('*sqrt(1)')) {
+                                result = result.replace('*sqrt(1)', '');
+                            }
+                            if (result.startsWith('1*')) {
+                                result = result.substring(2);
+                            }
+                            if (result.startsWith('-1*')) {
+                                result = result.replace('-1*', '-');
+                            }
+                            break;
+                        case 'rationalize1':
+                            // For simplicity, assume Expr1 is numerator, Expr2 is denominator
+                            // This calculator handles simple a/sqrt(b) and a/(c +/- sqrt(d))
+                            let numStr = surd1Input.value.trim();
+                            let denStr = surd2Input.value.trim();
+
+                            const denSingleSqrtMatch = denStr.match(/^sqrt\((\d+)\)$/);
+                            const denBinomialMatch = denStr.match(/^(-?\d*\.?\d*)\s*([+-])\s*sqrt\((\d+)\)$/);
+                            const denBinomialMatch2 = denStr.match(/^sqrt\((\d+)\)\s*([+-])\s*(-?\d*\.?\d*)$/);
+
+                            if (denSingleSqrtMatch) {
+                                const denRadicand = parseInt(denSingleSqrtMatch[1]);
+                                result = `(${numStr}*sqrt(${denRadicand})) / ${denRadicand}`;
+                            } else if (denBinomialMatch) {
+                                let c = parseFloat(denBinomialMatch[1]);
+                                let op = denBinomialMatch[2];
+                                let d = parseInt(denBinomialMatch[3]);
+                                let conjugateOp = (op === '+') ? '-' : '+';
+                                
+                                // Construct conjugate string
+                                let conjugateDenStr = `${c}${conjugateOp}sqrt(${d})`;
+                                if (c === 0) conjugateDenStr = `${conjugateOp}sqrt(${d})`;
+                                if (c === 1 && op === '+') conjugateDenStr = `1+sqrt(${d})`; // special case for 1+sqrt(d)
+                                if (c === 1 && op === '-') conjugateDenStr = `1-sqrt(${d})`; // special case for 1-sqrt(d)
+
+                                // Calculate new denominator: c^2 - d
+                                let newDenVal = (c * c) - d;
+                                if (op === '-') newDenVal = (c * c) - d; // (c - sqrt(d))(c + sqrt(d)) = c^2 - d
+                                if (op === '+') newDenVal = (c * c) - d; // (c + sqrt(d))(c - sqrt(d)) = c^2 - d
+
+                                result = `(${numStr}) * (${conjugateDenStr}) / (${newDenVal})`;
+                            } else if (denBinomialMatch2) {
+                                let d = parseInt(denBinomialMatch2[1]);
+                                let op = denBinomialMatch2[2];
+                                let c = parseFloat(denBinomialMatch2[3]);
+                                let conjugateOp = (op === '+') ? '-' : '+';
+
+                                // Construct conjugate string
+                                let conjugateDenStr = `sqrt(${d})${conjugateOp}${c}`;
+                                
+                                // Calculate new denominator: d - c^2
+                                let newDenVal = d - (c * c);
+                                if (op === '-') newDenVal = d - (c * c); // (sqrt(d) - c)(sqrt(d) + c) = d - c^2
+                                if (op === '+') newDenVal = d - (c * c); // (sqrt(d) + c)(sqrt(d) - c) = d - c^2
+
+                                result = `(${numStr}) * (${conjugateDenStr}) / (${newDenVal})`;
+
+                            } else {
+                                result = "Error: Denominator for rationalization must be of form 'sqrt(b)', 'a +/- sqrt(b)', or 'sqrt(a) +/- b'.";
+                            }
+                            break;
+                        default:
+                            result = "Invalid operation.";
+                    }
+                    surdResult.textContent = result;
+                } catch (e) {
+                    surdResult.textContent = "Error during calculation. Please check input format.";
+                    console.error(e);
+                }
+            });
+        });
+    </script>
+</body>
+</html>
